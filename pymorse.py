@@ -288,7 +288,13 @@ configure it to print debug messages on the console.
             print('Oups! An error occured!')
             print(mse)
 """
-import json
+from __future__ import with_statement
+import sys
+sys.path.append('/home/bjkomer/Downloads/jyson-1.0.2/src')
+sys.path.append('/home/bjkomer/Downloads/jyson-1.0.2/lib/jyson-1.0.2.jar')
+import com.xhaus.jyson.JysonCodec as json # Jython version of json
+
+#import json
 import time
 import socket
 import logging
@@ -304,7 +310,7 @@ logger = logging.getLogger("pymorse")
 logger.setLevel(logging.WARNING)
 # logger.addHandler( logging.NullHandler() )
 
-MSG_SEPARATOR=b"\n"
+MSG_SEPARATOR='\n'
 TIMEOUT=8
 BUFFER_SIZE=8192
 SUCCESS='SUCCESS'
@@ -634,7 +640,7 @@ class Stream(asynchat.async_chat):
         self.set_terminator(MSG_SEPARATOR)
         self.create_socket(family=socket.AF_INET, type=socket.SOCK_STREAM)
         self.connect( (host, port) )
-        self._in_buffer  = b""
+        self._in_buffer  = ""
         self._in_queue   = deque([], maxlen)
         self._callbacks  = []
         self._cv_new_msg = threading.Condition()
@@ -669,7 +675,7 @@ class Stream(asynchat.async_chat):
 
     def found_terminator(self):
         self.handle_msg(self._in_buffer)
-        self._in_buffer = b""
+        self._in_buffer = ""
 
     def handle_msg(self, msg):
         """ append new raw :param msg: in the input queue

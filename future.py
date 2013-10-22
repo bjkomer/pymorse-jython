@@ -1,4 +1,6 @@
-from concurrent.futures import ThreadPoolExecutor, Future
+#from concurrent.futures import ThreadPoolExecutor, Future
+import java.util.concurrent.ThreadPoolExecutor as ThreadPoolExecutor
+import java.util.concurrent.Future as Future
 
 class MorseFuture():
     def __init__(self, future, morse, rqst_id):
